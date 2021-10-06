@@ -8,8 +8,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertEquals;
 
 public class StateCensusAnalyserTest {
-	public static final String CSV_FILE_WITHOUT_HEADER = "//home/chethan/perfios/code/IndianStatesCensusAnalyserr/IndianStateCensusDataWithoutHeader.csv";
-    public static final String INCORRECT_CSV_FILE = "/home/chethan/perfios/code/IndianStatesCensusAnalyserr/IndianStateCensusDataWithWrongDelimiter.csv";
+	 public static final String CSV_FILE_WITH_WRONG_DELIMITER = "/home/chethan/perfios/code/IndianStatesCensusAnalyserr/IndianStateCensusDataWithWrongDelimiter.csv";
     public static final String NOT_A_CSV_FILE = "//home/chethan/perfios/code/IndianStatesCensusAnalyserr/new.txt";
     public static final String FILE_NOT_EXIST = "incorrectFilePath.csv";
     public static final String CORRECT_CSV_FILE = "/home/chethan/perfios/code/IndianStateCensusAnalyserr/IndianStateCensusData.csv";
@@ -28,12 +27,22 @@ public class StateCensusAnalyserTest {
 			censusAnalyser.loadIndianStateCensusData(FILE_NOT_EXIST);
         }
         @Test
-        public void givenIncorrectCSVFile_ThrowExceptionForIncorrectCSVFile() {
+        public void givenNonCSVFile_ThrowIncorrectTypeIssueException() {
             try {
                 StateCensusAnalyser stateCensusAnalyserMain = new StateCensusAnalyser();
                 stateCensusAnalyserMain.loadIndianStateCensusData(NOT_A_CSV_FILE);
             } catch (StateCensusAnalyserException e) {
                 assertEquals(StateCensusAnalyserException.CensusException.INCORRECT_TYPE_ISSUE, e.exceptionType);
+            }
+            
+        }
+        @Test
+        public void givenCorrectCSVFile_WhenDelimiterInvalid_ThrowDelimiterIssueException() {
+            try {
+                StateCensusAnalyser stateCensusAnalyserMain = new StateCensusAnalyser();
+                stateCensusAnalyserMain.loadIndianStateCensusData(CSV_FILE_WITH_WRONG_DELIMITER);
+            } catch (StateCensusAnalyserException e) {
+                assertEquals(StateCensusAnalyserException.CensusException.DELIMITER_ISSUE, e.exceptionType);
             }
         }
 
