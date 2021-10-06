@@ -12,7 +12,7 @@ public class StateCensusAnalyserTest {
     public static final String NOT_A_CSV_FILE = "//home/chethan/perfios/code/IndianStatesCensusAnalyserr/new.txt";
     public static final String FILE_NOT_EXIST = "incorrectFilePath.csv";
     public static final String CORRECT_CSV_FILE = "/home/chethan/perfios/code/IndianStateCensusAnalyserr/IndianStateCensusData.csv";
-   
+    public static final String CSV_FILE_WITHOUT_HEADER ="home/chethan/perfios/code/IndianStatesCensusAnalyserr/IndianStateCensusDataWithoutHeader.csv";
 
     @Test
     public void givenIndianCensusCSVFile_ShouldReturnCorrectRecords() throws StateCensusAnalyserException {
@@ -43,6 +43,15 @@ public class StateCensusAnalyserTest {
                 stateCensusAnalyserMain.loadIndianStateCensusData(CSV_FILE_WITH_WRONG_DELIMITER);
             } catch (StateCensusAnalyserException e) {
                 assertEquals(StateCensusAnalyserException.CensusException.DELIMITER_ISSUE, e.exceptionType);
+            }
+        }
+        @Test
+        public void givenCorrectCSVFile_WhenHeaderAbsent_ThrowIcorrectHeaderException() {
+            try {
+                StateCensusAnalyser stateCensusAnalyserMain = new StateCensusAnalyser();
+                stateCensusAnalyserMain.loadIndianStateCensusData(CSV_FILE_WITHOUT_HEADER);
+            } catch (StateCensusAnalyserException e) {
+                assertEquals(StateCensusAnalyserException.CensusException.INCORRECT_HEADER_PROBLEM, e.exceptionType);
             }
         }
 
